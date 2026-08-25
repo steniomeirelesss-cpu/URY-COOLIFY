@@ -1,0 +1,63 @@
+services:
+
+  frappe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    restart: unless-stopped
+
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+    environment:
+      DB_HOST: db
+      REDIS_CACHE: redis://redis:6379
+      REDIS_QUEUE: redis://redis:6379
+
+    volumes:
+      - sites:/home/frappe/frappe-bench/sites
+
+    ports:
+      - "8000"
+
+  db:
+    image: mariadb:10.6
+
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+    volumes:
+      - db-data:/var/lib/mysql
+
+    healthcheck:
+      test:
+        - CMD
+        - healthcheck.sh
+        - --connect
+        - --innodb_initialized
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+
+    restart: unless-stopped
+
+    volumes:
+      - redis-data:/data
+
+volumes:
+  sites:
+  db-data:
+  redis-data:

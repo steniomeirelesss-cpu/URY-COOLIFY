@@ -1,14 +1,14 @@
 [
   {
-    "url": "https://github.com/frappe/erpnext",
+    "url": "https://github.com/frappe/erpnext.git",
     "branch": "version-15"
   },
   {
-    "url": "https://github.com/frappe/hrms",
-    "branch": "version-15"
+    "url": "https://github.com/frappe/hrms.git",
+    "branch": "hrms"
   },
   {
-    "url": "https://github.com/ury-erp/ury",
+    "url": "https://github.com/ury-erp/ury.git",
     "branch": "develop"
   }
 ]
