@@ -1,5 +1,4 @@
 services:
-
   frappe:
     build:
       context: .
@@ -15,6 +14,7 @@ services:
 
     environment:
       DB_HOST: db
+      DB_PORT: "3306"
       REDIS_CACHE: redis://redis:6379
       REDIS_QUEUE: redis://redis:6379
 
@@ -54,10 +54,6 @@ services:
 
     restart: unless-stopped
 
-    volumes:
-      - redis-data:/data
-
 volumes:
   sites:
   db-data:
-  redis-data:
